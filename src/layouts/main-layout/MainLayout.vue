@@ -1,13 +1,10 @@
 <script>
 import { defineComponent, ref } from "vue";
-import { storeToRefs } from "pinia";
 
 import { MainHeader } from "@widgets/main-header";
 import { MainPageContainer } from "@widgets/main-page-container";
+import { MainFooter } from "@widgets/main-footer";
 import { useUserStore } from "src/stores";
-
-const { fetchUser } = useUserStore();
-const { loading } = storeToRefs(useUserStore());
 
 export default defineComponent({
   name: "MainLayout",
@@ -15,12 +12,20 @@ export default defineComponent({
   components: {
     MainHeader,
     MainPageContainer,
+    MainFooter,
   },
 
   data() {
     return {
       leftDrawerOpen: false,
+      userStore: useUserStore(),
     };
+  },
+
+  computed: {
+    userLoading() {
+      return this.userStore.loading;
+    },
   },
 
   methods: {
@@ -30,19 +35,19 @@ export default defineComponent({
   },
 
   mounted() {
-    fetchUser();
+    this.userStore.fetchUser();
   },
 });
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf" class="base-layout">
-    <p v-if="loading">Loading...</p>
+  <q-layout view="lHh Lpr lff" class="base-layout container">
+    <p v-if="userLoading">Loading...</p>
 
     <template v-else>
       <MainHeader />
-
       <MainPageContainer />
+      <MainFooter />
     </template>
   </q-layout>
 </template>

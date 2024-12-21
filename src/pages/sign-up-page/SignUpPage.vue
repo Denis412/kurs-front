@@ -12,8 +12,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-page>
-    <SignUpFeature />
+  <q-page class="flex justify-center">
+    <SignUpFeature class="q-mt-xl" />
   </q-page>
 </template>
 

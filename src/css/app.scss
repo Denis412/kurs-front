@@ -1,13 +1,33 @@
+@import "./fonts.scss";
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+body {
+  font-family: "Montserrat Regular";
+}
+
 p {
   margin: 0;
 }
 
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
 .base-layout {
   background-color: #f2f2f2;
+}
+
+.container {
+  margin: 0 auto;
+  padding-inline: 72px;
+}
+
+.text-orange {
+  color: $orange-1;
 }

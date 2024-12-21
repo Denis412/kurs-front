@@ -12,8 +12,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-page>
-    <SignInFeature />
+  <q-page class="flex justify-center">
+    <SignInFeature class="q-mt-xl" />
   </q-page>
 </template>
 

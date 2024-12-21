@@ -34,5 +34,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .u-label-section {
   position: relative;
+  display: block;
 }
 </style>

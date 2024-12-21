@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-page-container>
+  <q-page-container class="main-page-container">
     <router-view />
   </q-page-container>
 </template>

@@ -1,6 +1,6 @@
 <script>
 import { defineComponent } from "vue";
-import { AuthForm } from "@entities/user";
+import { AuthForm, SignUp } from "@entities/user";
 
 export default defineComponent({
   name: "SignUpFeature",
@@ -8,11 +8,21 @@ export default defineComponent({
   components: {
     AuthForm,
   },
+
+  methods: {
+    async onSubmit(data) {
+      await SignUp(data);
+
+      this.$router.push({
+        name: "sign-in",
+      });
+    },
+  },
 });
 </script>
 
 <template>
-  <AuthForm type="sign-up" />
+  <AuthForm type="sign-up" @submit="onSubmit" />
 </template>
 
 <style scoped lang="scss"></style>

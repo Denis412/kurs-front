@@ -105,7 +105,7 @@ export default defineComponent({
 <template>
   <q-form class="auth-form" @submit.prevent="submit">
     <div class="auth-form__header">
-      <p>{{ formTitle }}</p>
+      <h2 class="text-h2 text-center">{{ formTitle }}</h2>
     </div>
 
     <div class="auth-form__body">
@@ -135,15 +135,23 @@ export default defineComponent({
         />
       </ULabelSection>
 
-      <p v-if="!isSignIn" class="text-center">
+      <p v-if="!isSignIn" class="text-center q-mt-md">
         Вы принимаете условия Политики конфиденциальности и даёте своё Согласие
         на обработку персональных данных после нажатия кнопки.
       </p>
     </div>
 
-    <div class="auth-form__controls">
-      <UButton :label="submitBtnLabel" type="submit" />
-      <UButton :label="redirectBtnLabel" @click="redirect" />
+    <div class="auth-form__controls q-mt-md">
+      <UButton
+        :label="submitBtnLabel"
+        type="submit"
+        class="green-btn text-bold"
+      />
+      <UButton
+        :label="redirectBtnLabel"
+        class="orange-btn text-bold"
+        @click="redirect"
+      />
     </div>
   </q-form>
 </template>
@@ -152,6 +160,20 @@ export default defineComponent({
 .auth-form {
   position: relative;
   max-width: 676px;
+  width: 100%;
   padding-inline: 20px;
+}
+
+.auth-form__body {
+  & > *:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}
+
+.auth-form__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 </style>

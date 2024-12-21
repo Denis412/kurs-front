@@ -1,6 +1,6 @@
 <script>
 import { defineComponent } from "vue";
-import { AuthForm } from "@entities/user";
+import { AuthForm, SignIn } from "@entities/user";
 
 export default defineComponent({
   name: "SignInFeature",
@@ -10,13 +10,34 @@ export default defineComponent({
   },
 
   methods: {
-    onSubmit(data) {
-      console.log("data", data);
+    async onSubmit(data) {
+      try {
+        const loginResult = await SignIn(data);
 
-      localStorage.setItem("token", "1");
-      this.$router.push({
-        name: "index",
-      });
+        if (!loginResult || !loginResult.data?.access_token) {
+          this.$q.notify({
+            message: "Что-то пошло не так",
+            color: "negative",
+          });
+          return;
+        }
+
+        localStorage.setItem("token", loginResult.data?.access_token);
+        localStorage.setItem("token_type", loginResult.data?.token_type);
+
+        this.$router.push({
+          name: "index",
+        });
+      } catch (e) {
+        const loginError = e.response?.data.message;
+
+        if (loginError) {
+          this.$q.notify({
+            message: loginError,
+            color: "negative",
+          });
+        }
+      }
     },
   },
 });

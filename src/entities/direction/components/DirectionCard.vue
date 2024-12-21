@@ -15,11 +15,30 @@ export default defineComponent({
       default: () => ({}),
     },
   },
+
+  emits: {
+    enroll: null,
+  },
+
+  data() {
+    return {
+      loading: false,
+    };
+  },
+
+  methods: {
+    onEnroll() {
+      this.loading = true;
+      this.$emit("enroll", this.direction, () => {
+        this.loading = false;
+      });
+    },
+  },
 });
 </script>
 
 <template>
-  <div class="direction-card q-mb-xl">
+  <div class="direction-card">
     <q-img
       :src="`/assets/images/directions/${direction.img}.png`"
       :alt="direction.name"
@@ -29,7 +48,12 @@ export default defineComponent({
     <div class="direction-card__info">
       <p class="text-body1 text-bold">{{ direction.name }}</p>
       <p>Курс: {{ direction.price }}Р</p>
-      <UButton label="Записаться" class="green-btn text-black text-bold" />
+      <UButton
+        label="Записаться"
+        class="green-btn text-black text-bold"
+        :loading="loading"
+        @click="onEnroll"
+      />
     </div>
   </div>
 </template>

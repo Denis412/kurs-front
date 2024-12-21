@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 import { SearchInput } from "@features/inputs";
 import { DirectionCard } from "@entities/direction";
+import { SendOrderDialog, SendOrderResultDialog } from "@features/order";
 
 export default defineComponent({
   name: "DirectionsPage",
@@ -9,6 +10,8 @@ export default defineComponent({
   components: {
     SearchInput,
     DirectionCard,
+    SendOrderDialog,
+    SendOrderResultDialog,
   },
 
   data() {
@@ -28,8 +31,24 @@ export default defineComponent({
       this.directions = directionsResult.data;
       this.loading = false;
     },
+
     onUpdateSearchValue(v) {
       this.fetchDirections();
+    },
+
+    onEnroll(direction, done) {
+      this.$api.get(`order/check/${direction.id}`).then((r) => {
+        done();
+
+        if (r.data.order_exist) {
+          this.$refs.sendOrderResultDialog.show(true);
+          return;
+        }
+
+        this.$refs.sendOrderDialog.show(direction, () => {
+          this.$refs.sendOrderResultDialog.show(true);
+        });
+      });
     },
   },
 
@@ -40,7 +59,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center q-mb-xl">
     <section class="directions-section">
       <div class="directions-section__header">
         <h2 class="text-h2">Направления</h2>
@@ -58,9 +77,13 @@ export default defineComponent({
           v-for="direction in directions"
           :key="direction.name"
           :direction="direction"
+          @enroll="onEnroll"
         />
       </ul>
     </section>
+
+    <SendOrderDialog ref="sendOrderDialog" />
+    <SendOrderResultDialog ref="sendOrderResultDialog" />
   </q-page>
 </template>
 

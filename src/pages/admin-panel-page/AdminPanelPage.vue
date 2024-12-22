@@ -2,7 +2,12 @@
 import { defineComponent } from "vue";
 import { MainTable } from "@widgets/main-table";
 
-import { OrdersTable, UsersTable, ProductsEditorTable } from "./tables";
+import {
+  OrdersTable,
+  UsersTable,
+  ProductsEditorTable,
+  StatisticsGraphics,
+} from "./tables";
 import { AdminPanelTabs } from "./components";
 
 export default defineComponent({
@@ -13,6 +18,7 @@ export default defineComponent({
     OrdersTable,
     UsersTable,
     ProductsEditorTable,
+    StatisticsGraphics,
   },
 
   data() {
@@ -43,7 +49,9 @@ export default defineComponent({
           <OrdersTable />
         </q-tab-panel>
 
-        <q-tab-panel name="statistics"> Statistics </q-tab-panel>
+        <q-tab-panel name="statistics">
+          <StatisticsGraphics />
+        </q-tab-panel>
       </q-tab-panels>
     </section>
   </q-page>

@@ -25,6 +25,18 @@ export default defineComponent({
       const ordersResult = await this.$api.get("order/admin");
       this.rows = ordersResult.data;
     },
+
+    acceptOrder(order) {
+      this.$api.patch(`order/${order.id}/accept`).then(() => {
+        this.fetchOrders();
+      });
+    },
+
+    cancelOrder(order) {
+      this.$api.patch(`order/${order.id}/cancel`).then(() => {
+        this.fetchOrders();
+      });
+    },
   },
 
   mounted() {
@@ -39,8 +51,24 @@ export default defineComponent({
       <q-tr :props="props">
         <q-td v-for="col in props.cols" :key="col.name" :props="props">
           <div v-if="col.type === 'buttons'" class="q-gutter-x-xs">
-            <UButton class="green-btn text-black" icon="check" />
-            <UButton class="orange-btn text-black" icon="close" />
+            <UButton
+              v-if="
+                props.row['status_name'] === 'Заявка' ||
+                props.row['status_name'] === 'Отказ'
+              "
+              class="green-btn text-black"
+              icon="check"
+              @click="acceptOrder(props.row)"
+            />
+            <UButton
+              v-if="
+                props.row['status_name'] === 'Заявка' ||
+                props.row['status_name'] === 'Оплачено'
+              "
+              class="orange-btn text-black"
+              icon="close"
+              @click="cancelOrder(props.row)"
+            />
           </div>
 
           <div v-else>

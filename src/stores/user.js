@@ -11,11 +11,17 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async fetchUser() {
-      this.loading = true;
-      const getResult = await api.get("user/current");
-      this.user = getResult.data;
-      this.loading = false;
-      return this.user;
+      try {
+        this.loading = true;
+        const getResult = await api.get("user/current");
+        this.user = getResult.data;
+        this.loading = false;
+        return this.user;
+      } catch (e) {
+        this.router.push({
+          name: "sign-in",
+        });
+      }
     },
   },
 });

@@ -65,7 +65,11 @@ export default defineComponent({
           'text-orange': $route.name === 'directions',
         }"
       />
-      <UButton label="Выход" @click="logOut" />
+      <UButton
+        label="Выход"
+        @click="logOut"
+        class="cursor-pointer text-negative"
+      />
     </div>
   </q-header>
 </template>

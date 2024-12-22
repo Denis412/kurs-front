@@ -1,9 +1,11 @@
 <script>
 import { defineComponent } from "vue";
-import { ULabelSection, UInput, UButton } from "@shared";
+import { ULabelSection, UInput, UButton, formValidateMixin } from "@shared";
 
 export default defineComponent({
   name: "OrderForm",
+
+  mixins: [formValidateMixin],
 
   components: {
     ULabelSection,
@@ -55,7 +57,7 @@ export default defineComponent({
 
     <div class="order-form__body q-gutter-y-md">
       <ULabelSection tag="label" label="Имя">
-        <UInput v-model="name" placeholder="Введите имя" />
+        <UInput v-model="name" placeholder="Введите имя" :rules="[required]" />
       </ULabelSection>
 
       <ULabelSection tag="label" label="Телефон">
@@ -63,11 +65,16 @@ export default defineComponent({
           v-model="phone"
           placeholder="+7 (966) 666 66 66"
           mask="+7 (###) ### ## ##"
+          :rules="[required]"
         />
       </ULabelSection>
 
       <ULabelSection tag="label" label="Адрес">
-        <UInput v-model="address" placeholder="Введите адрес" />
+        <UInput
+          v-model="address"
+          placeholder="Введите адрес"
+          :rules="[required]"
+        />
       </ULabelSection>
     </div>
 

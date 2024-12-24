@@ -1,6 +1,7 @@
 <script>
 import { defineComponent } from "vue";
 import { adminPanelTabs } from "../constants";
+import { useUserStore } from "src/stores";
 
 export default defineComponent({
   name: "AdminPanelTabs",
@@ -20,7 +21,17 @@ export default defineComponent({
     return {
       tab: null,
       tabs: adminPanelTabs,
+      userStore: useUserStore(),
     };
+  },
+
+  computed: {
+    isModerator() {
+      return this.userStore.user.role === "moderator";
+    },
+    isAdmin() {
+      return this.userStore.user.role === "admin";
+    },
   },
 
   methods: {
@@ -46,13 +57,14 @@ export default defineComponent({
 
 <template>
   <q-tabs v-model="tab">
-    <q-tab
-      v-for="tab in tabs"
-      :key="tab.name"
-      :name="tab.name"
-      :label="tab.label"
-      class="text-h2"
-    />
+    <template v-for="tab in tabs" :key="tab.name">
+      <q-tab
+        v-if="tab.onlyAdmin ? isAdmin : isModerator || isAdmin"
+        :name="tab.name"
+        :label="tab.label"
+        class="text-h2"
+      />
+    </template>
   </q-tabs>
 </template>
 

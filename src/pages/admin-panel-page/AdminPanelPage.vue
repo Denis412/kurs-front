@@ -9,6 +9,7 @@ import {
   StatisticsGraphics,
 } from "./tables";
 import { AdminPanelTabs } from "./components";
+import { useUserStore } from "src/stores";
 
 export default defineComponent({
   name: "AdminPanelPage",
@@ -24,10 +25,15 @@ export default defineComponent({
   data() {
     return {
       panelTab: null,
+      userStore: useUserStore(),
     };
   },
 
-  computed: {},
+  computed: {
+    isAdmin() {
+      return this.userStore.user.role === "admin";
+    },
+  },
 });
 </script>
 
@@ -49,7 +55,7 @@ export default defineComponent({
           <OrdersTable />
         </q-tab-panel>
 
-        <q-tab-panel name="statistics">
+        <q-tab-panel v-if="isAdmin" name="statistics">
           <StatisticsGraphics />
         </q-tab-panel>
       </q-tab-panels>

@@ -23,6 +23,15 @@ export default defineComponent({
     };
   },
 
+  computed: {
+    isModeratorOrAdmin() {
+      return (
+        this.userStore.user?.role === "moderator" ||
+        this.userStore.user?.role === "admin"
+      );
+    },
+  },
+
   methods: {
     logOut() {
       localStorage.removeItem("token");
@@ -51,7 +60,7 @@ export default defineComponent({
 
     <div v-if="layout === 'main'" class="main-header__actions">
       <UButton
-        v-if="userStore.user?.role === 'admin'"
+        v-if="isModeratorOrAdmin"
         label="Панель администрирования"
         @click="$router.push({ name: 'admin-panel' })"
         :class="{

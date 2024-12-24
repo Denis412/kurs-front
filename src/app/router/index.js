@@ -51,7 +51,7 @@ export default route(function (/* { store, ssrContext } */) {
 
     // Сделать через метод usrStore - getRole (эндпоинт /get-role).
     if (isAdminRoute) {
-      if (user.value?.role !== "admin") {
+      if (user.value?.role !== "admin" && user.value?.role !== "moderator") {
         return from;
       }
     }
